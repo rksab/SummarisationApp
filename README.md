@@ -25,9 +25,3 @@ The summarization runs entirely on the client via WebAssembly using the [`Xenova
 
 ---
 
-## 🚀 Setup Instructions
-
-1. **Clone the repo**
-   ```bash
-   git clone https://github.com/yourusername/summarization-app
-   cd summarization-app
