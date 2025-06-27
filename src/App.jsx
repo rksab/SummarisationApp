@@ -61,17 +61,17 @@ export default function App() {
   return (
     <div className="p-4 max-w-xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Summarization App</h1>
-
       <label className="block font-semibold mb-2">Enter text to summarize:</label>
+      <br/> 
       <textarea
-        className="w-full p-2 border rounded"
-        rows="5"
-        placeholder="Paste your text here..."
+         className="w-full p-2 border rounded resize-y"
+         rows="6"
+         placeholder="Paste your text here..."
         value={text}
         onChange={(e) => setText(e.target.value)}
-      ></textarea>
-
-      <button
+       />
+       <br/>
+       <button
         className="mt-2 bg-blue-500 text-white p-2 rounded"
         onClick={summarize}
         disabled={disabled}
@@ -85,6 +85,7 @@ export default function App() {
         <h2 className="font-bold">Summary:</h2>
         <p className="mt-2 border p-2 rounded bg-gray-100">{summary}</p>
       </div>
+
     </div>
   );
 }
