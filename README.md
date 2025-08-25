@@ -17,11 +17,9 @@ The summarization runs entirely on the client via WebAssembly using the [`Xenova
 
 ## 🛠 Tech Stack
 
-- `@huggingface/transformers` (via [transformers.js](https://github.com/xenova/transformers.js))
+- `Xenova/distilbart-cnn-6-6` model (quantized version) from `@huggingface/transformers` (via [transformers.js](https://github.com/xenova/transformers.js))
 - `React`
 - `Web Workers`
 - `TextStreamer` for real-time streaming
-- `Xenova/distilbart-cnn-6-6` model (quantized version)
 
 ---
-
