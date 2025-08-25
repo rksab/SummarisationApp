@@ -8,7 +8,7 @@ The summarization runs entirely on the client via WebAssembly using the [`Xenova
 
 ## Live demo
 
-[\[](https://summarisationapp.onrender.com/)](https://summarisationapp.onrender.com/)
+[https://summarisationapp.onrender.com](https://summarisationapp.onrender.com)
 
 ## ✨ Features
 
