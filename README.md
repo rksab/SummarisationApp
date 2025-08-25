@@ -1,12 +1,27 @@
-# React + Vite
+# 🧠 Summarization App using Hugging Face Transformers and Web Workers
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a lightweight React app that uses [Hugging Face Transformers.js](https://github.com/xenova/transformers.js) to perform real-time text summarization in the browser — no backend required.
 
-Currently, two official plugins are available:
+The summarization runs entirely on the client via WebAssembly using the [`Xenova/distilbart-cnn-6-6`](https://huggingface.co/Xenova/distilbart-cnn-6-6) model. Output is streamed token-by-token using `TextStreamer`.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## ✨ Features
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- 🧠 In-browser text summarization using a BART model
+- ⚡ Web Worker for async computation without UI blocking
+- 📡 Real-time token streaming via `TextStreamer`
+- 🔐 No backend, no API keys — works offline after model is cached
+
+---
+
+## 🛠 Tech Stack
+
+- `@huggingface/transformers` (via [transformers.js](https://github.com/xenova/transformers.js))
+- `React`
+- `Web Workers`
+- `TextStreamer` for real-time streaming
+- `Xenova/distilbart-cnn-6-6` model (quantized version)
+
+---
+
