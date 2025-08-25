@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import './index.css'
 
 export default function App() {
   const worker = useRef(null);
@@ -6,14 +7,23 @@ export default function App() {
   // State management
   const [ready, setReady] = useState(null);
   const [disabled, setDisabled] = useState(false);
+  //incase you need to update progress
   const [progressItems, setProgressItems] = useState([]);
   const [text, setText] = useState("");
   const [summary, setSummary] = useState("");
+  const [error, setError] = useState("");
+  const [status, setStatus] = useState(" Initializing .... ")
 
   // Function to start summarization
   const summarize = () => {
+    if (!text.trim()){
+      setError("Please enter text to summarize. ")
+      return; 
+    }
     setDisabled(true);
     setSummary("");
+    setError("");
+    setStatus("Starting Summarisation....")
     worker.current.postMessage({ text });
   };
 
@@ -40,11 +50,18 @@ export default function App() {
 
         case "complete":
           setDisabled(false);
+          setText(""); 
           break;
 
         case "ready":
           setReady(true);
           break;
+          
+        case "error":
+            setError(e.data.error || "An unknown error occurred");
+            setDisabled(false);
+            setStatus("Error occurred");
+            break;
 
         default:
           console.warn("Unknown worker message:", e.data);
@@ -59,33 +76,37 @@ export default function App() {
   }, []);
 
   return (
-    <div className="p-4 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Summarization App</h1>
-      <label className="block font-semibold mb-2">Enter text to summarize:</label>
-      <br/> 
-      <textarea
-         className="w-full p-2 border rounded resize-y"
-         rows="6"
-         placeholder="Paste your text here..."
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-       />
-       <br/>
-       <button
-        className="mt-2 bg-blue-500 text-white p-2 rounded"
-        onClick={summarize}
-        disabled={disabled}
-      >
-        {disabled ? "Summarizing..." : "Summarize"}
-      </button>
+    <div className ="flex flex-col min-h-screen">
+    <header className="bg-gray-600 px-8 py-6 text-center text-white shadow-md">
+      <h1 className="mb-2 text-3xl font-bold">AI TEXT SUMMARIZER</h1>
+      <p className="opacity-90">Powered by DistilBART - Transform long text into concise summaries</p>
+    </header>
+    <main className="flex flex-grow items-center justify-center bg-gray-100">
+  <div className="w-full max-w-xl p-6 flex flex-col">
+    <textarea
+      className="mb-4 h-32 w-full resize-none rounded border border-gray-300 p-3"
+      placeholder="Enter text to summarize"
+      value={text}
+      onChange={(e) => setText(e.target.value)}
+    />
+     {error && (
+    <p className="text-sm text-red-600 mb-2">{error}</p>
+  )}
+    <button
+      className="w-full mb-4 rounded bg-gray-600 py-4 text-white transition hover:bg-gray-700"
+      onClick={summarize}
+      disabled={disabled}
+    >
+      {disabled ? "Summarizing..." : "Summarize"}
+    </button>
 
-      {ready === false && <p className="mt-2 text-gray-500">Loading models...</p>}
-
-      <div className="mt-4">
-        <h2 className="font-bold">Summary:</h2>
-        <p className="mt-2 border p-2 rounded bg-gray-100">{summary}</p>
-      </div>
-
+    <div className="mt-4">
+      <p className="text-gray-600">Summary:</p>
+      <p className="mt-2 border p-2 rounded bg-gray-100">{summary}</p>
+    </div>
+  </div>
+</main>
+    <footer className="h-16 bg-gray-600"></footer>
     </div>
   );
 }
