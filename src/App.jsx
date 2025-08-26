@@ -11,7 +11,7 @@ export default function App() {
   const [text, setText] = useState("");
   const [summary, setSummary] = useState("");
   const [error, setError] = useState("");
-  const [status, setStatus] = useState(" Initializing .... ")
+  const [status, setStatus] = useState("Idle")
 
   // Function to start summarization
   const summarize = () => {
@@ -20,6 +20,7 @@ export default function App() {
       return; 
     }
     setDisabled(true);
+    setReady("starting")
     setSummary("");
     setError("");
     setStatus("Starting Summarisation....")
@@ -36,6 +37,7 @@ export default function App() {
     const onMessageReceived = (e) => {
       switch (e.data.status) {
         case "progress":
+          setStatus("Loading model...")
           setProgressItems((prev) =>
             prev.map((item) =>
               item.file === e.data.file ? { ...item, progress: e.data.progress } : item
@@ -44,21 +46,25 @@ export default function App() {
           break;
 
         case "update":
+          setStatus("Generating summary...")
           setSummary((s) => s + e.data.output);
           break;
 
         case "complete":
+          setStatus("Summary complete!")
+          setReady(true)
           setDisabled(false);
           setText(""); 
           break;
 
         case "ready":
-          setReady(true);
+          setReady("model loaded");
           break;
           
         case "error":
             setError(e.data.error || "An unknown error occurred");
             setDisabled(false);
+            setReady(true)
             setStatus("Error occurred");
             break;
 
@@ -81,9 +87,16 @@ export default function App() {
       <p className="opacity-90">Powered by DistilBART - Transform long text into concise summaries</p>
     </header>
     <main className="flex flex-grow items-center justify-center bg-gray-100">
-  <div className="w-full max-w-xl p-6 flex flex-col">
+     <div className="w-full max-w-xl p-6 flex flex-col">
+    { disabled &&
+     <div className="mb-4 p-3 bg-gray-50 border border-gray-200 rounded">
+            <p className="text-sm text-gray-800">
+              <strong>Status:</strong> {status}
+            </p>
+          </div>
+}
     <textarea
-      className="mb-4 h-32 w-full resize-none rounded border border-gray-300 p-3"
+      className="mb-4 h-32 w-full resize-none rounded border border-gray-300 p-3 "
       placeholder="Enter text to summarize"
       value={text}
       onChange={(e) => setText(e.target.value)}
@@ -100,8 +113,8 @@ export default function App() {
     </button>
 
     <div className="mt-4">
-      <p className="text-gray-600">Summary:</p>
-      <p className="mt-2 border p-2 rounded bg-gray-100">{summary}</p>
+      <p className="text-gray-600">Summary</p>
+      <p className="mt-2 border p-2 rounded bg-gray-100">{summary || "Summary will appear here..."}</p>
     </div>
   </div>
 </main>
