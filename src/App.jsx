@@ -88,9 +88,14 @@ export default function App() {
       <p className="opacity-90">Powered by DistilBART - Transform long text into concise summaries</p>
     </header>
     <main className="flex flex-grow items-center justify-center bg-gray-100">
-      <div className="w-full max-w-xl p-6 flex flex-col"> { disabled && <div className="flex items-center gap-2"> <Spinner /> <span>Status: {status}</span> </div> }
+     <div className="w-full max-w-xl p-6 flex flex-col"> 
+      { disabled && <div className="flex items-center gap-2"> 
+        <Spinner /> <span>Status: {status}</span>
+      </div> }
+    
     <textarea
-      className="mb-4 h-32 w-full resize-none rounded border border-gray-300 p-3 "
+      className="mb-4 h-32 w-full resize-none rounded border border-gray-500 p-3 
+             focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-gray-400 "
       placeholder="Enter text to summarize"
       value={text}
       onChange={(e) => setText(e.target.value)}
@@ -107,8 +112,8 @@ export default function App() {
     </button>
 
     <div className="mt-4">
-      <p className="text-gray-600">Summary</p>
-      <p className="mt-2 border p-2 rounded bg-gray-100">{summary || "Summary will appear here..."}</p>
+      <p className="text-gray-800">Summary: </p>
+      <p className="mt-2 border p-2 rounded bg-gray-100">{summary || "Summary will appear here."}</p>
     </div>
   </div>
 </main>
